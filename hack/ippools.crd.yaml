@@ -4,7 +4,6 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.10.0
-  creationTimestamp: null
   name: ippools.ipamcontroller.openshift.io
 spec:
   group: ipamcontroller.openshift.io
@@ -52,6 +51,9 @@ spec:
               address-cidr:
                 description: AddressCidr is a cidr for the IP IPv4range to manage.
                 type: string
+              ip-range:
+                description: IpRange is the range of IP addresses to manage.
+                type: string
               gateway:
                 type: string
               nameserver:
@@ -62,9 +64,20 @@ spec:
                 description: Prefix is the subnet prefix
                 type: integer
             required:
-            - address-cidr
             - prefix
-            type: object
+            oneOf:
+              - properties:
+                  address-cidr:
+                    type: string
+                  ip-range:
+                    not:
+                      type: string
+              - properties:
+                  ip-range:
+                    type: string
+                  address-cidr:
+                    not:
+                      type: string
           status:
             description: status represents the current information/status for the
               IP pool. Populated by the system. Read-only.
