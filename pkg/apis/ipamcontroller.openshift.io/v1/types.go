@@ -38,6 +38,10 @@ type IPPoolSpec struct {
 	// AddressCidr is a cidr for the IP IPv4range to manage.
 	AddressCidr string `json:"address-cidr"`
 
+	// IpRange is the range of IP addresses to manage.
+	// +optional
+	IpRange string `json:"ip-range"`
+
 	// Prefix is the subnet prefix
 	Prefix int `json:"prefix"`
 
